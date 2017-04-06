@@ -26,6 +26,9 @@ scaffolding_python_pkg="core/python"
 # after the scaffolding is loaded.
 _scaffolding_begin() {
   pkg_deps=(${pkg_deps[@]} $scaffolding_python_pkg)
+  pkg_env_sep=(
+    ['PYTHONPATH']=':'
+  )
 }
 
 
@@ -35,7 +38,7 @@ do_default_clean() {
 }
 
 scaffolding_python_clean() {
-  pushd "$pkg_dirname"
+  pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname"
   if [[ -f "setup.py" ]]; then
     python setup.py clean --all
   else
@@ -54,16 +57,23 @@ scaffolding_python_pip_install() {
   name="$1"
   version="$2"
 
-  pip install "$name==$version"
+  pip install \
+    "$name==$version" \
+    --prefix="$pkg_prefix" \
+    --ignore-installed
+
+  add_path_env 'PYTHONPATH' "$pkg_prefix"
 }
 
 scaffolding_python_install() {
-  if [[ -f "${pkg_dirname}/setup.py" ]]; then
+  if [[ -f "$HAB_CACHE_SRC_PATH/${pkg_dirname}/setup.py" ]]; then
     python setup.py install \
       --prefix="$pkg_prefix" \
       --old-and-unmanageable || \
     python setup.py install \
       --prefix="$pkg_prefix"
+
+    add_path_env 'PYTHONPATH' "$pkg_prefix"
   fi
 }
 

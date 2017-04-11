@@ -30,6 +30,9 @@ pkg_build_deps=(
   core/make
   core/util-linux
 )
+pkg_build_env=(
+  ['PYTHON_SITE_PACKAGES']="lib/python${pkg_version%.*}/site-packages"
+)
 pkg_lib_dirs=(lib)
 pkg_bin_dirs=(bin)
 pkg_include_dirs=(include Include)

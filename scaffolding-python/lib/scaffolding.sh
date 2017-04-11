@@ -127,7 +127,7 @@ scaffolding_python_install() {
       --prefix="$pkg_prefix"
   fi
 
-  add_path_env 'PYTHONPATH' 'lib/python3.6/site-packages'
+  add_path_env 'PYTHONPATH' "$PYTHON_SITE_PACKAGES"
 }
 
 # Run do_default_strip to ensure any native C extentions are stripped.

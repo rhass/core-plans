@@ -1,6 +1,6 @@
 pkg_name=python
 pkg_distname=Python
-pkg_version=3.6.0
+pkg_version=3.6.1
 pkg_origin=core
 pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=('Python-2.0')
@@ -9,7 +9,7 @@ pkg_description="Python is a programming language that lets you work quickly \
 pkg_upstream_url="https://www.python.org"
 pkg_dirname=${pkg_distname}-${pkg_version}
 pkg_source=https://www.python.org/ftp/python/${pkg_version}/${pkg_dirname}.tgz
-pkg_shasum=aa472515800d25a3739833f76ca3735d9f4b2fe77c3cb21f69275e0cce30cb2b
+pkg_shasum=aa50b0143df7c89ce91be020fe41382613a817354b33acdc6641b44f8ced3828
 pkg_deps=(
   core/bzip2
   core/gcc-libs
@@ -29,10 +29,13 @@ pkg_build_deps=(
   core/make
   core/util-linux
 )
+pkg_build_env=(
+  ['PYTHON_SITE_PACKAGES']="lib/python${pkg_version%.*}/site-packages"
+)
 pkg_lib_dirs=(lib)
 pkg_bin_dirs=(bin)
 pkg_include_dirs=(include)
-pkg_interpreters=(bin/python bin/python3 bin/python3.5)
+pkg_interpreters=(bin/python bin/python3 bin/python3.6)
 
 do_prepare() {
   sed -i.bak 's/#zlib/zlib/' Modules/Setup.dist

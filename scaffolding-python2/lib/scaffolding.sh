@@ -56,6 +56,9 @@ _pip_install_only() {
 _scaffolding_begin() {
   pkg_deps=(${pkg_deps[@]} $scaffolding_python2_pkg)
   pkg_build_deps=(${pkg_build_deps[@]} $scaffolding_python2_pkg)
+  pkg_env_sep=(
+    ['PYTHONPATH']=':'
+  )
   # Disable download, verify, and unpack if we are only installing via pip.
   # It should be noted that we currently must have `pkg_source` since we
   # validate plans before scaffolding is loaded.
@@ -123,6 +126,8 @@ scaffolding_python2_install() {
     python setup.py install \
       --prefix="$pkg_prefix"
   fi
+
+  add_path_env 'PYTHONPATH' 'lib/python2.7/site-packages'
 }
 
 # Run do_default_strip to ensure any native C extentions are stripped.
